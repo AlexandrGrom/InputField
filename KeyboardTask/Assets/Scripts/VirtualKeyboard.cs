@@ -9,8 +9,7 @@ public class VirtualKeyboard : MonoBehaviour {
 
     public void KeyPress(string c)
     {
-        InputField.text += c;
-        InputField.ActivateInputField();
+        InputField.AddString(c[0]);
     }
 
     public void KeyLeft()

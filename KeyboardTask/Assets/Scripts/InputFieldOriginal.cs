@@ -352,7 +352,15 @@ public class InputFieldOriginal
     /// Getters are public Setters are protected
     /// </summary>
 
-    protected int caretPositionInternal { get { return m_CaretPosition + Input.compositionString.Length; } set { m_CaretPosition = value; ClampPos(ref m_CaretPosition); } }
+    protected int caretPositionInternal {
+        get
+        {
+            return m_CaretPosition + Input.compositionString.Length;
+        }
+        set
+        {
+            m_CaretPosition = value; ClampPos(ref m_CaretPosition);
+        } }
     protected int caretSelectPositionInternal { get { return m_CaretSelectPosition + Input.compositionString.Length; } set { m_CaretSelectPosition = value; ClampPos(ref m_CaretSelectPosition); } }
     private bool hasSelection { get { return caretPositionInternal != caretSelectPositionInternal; } }
 
