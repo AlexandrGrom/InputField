@@ -14,16 +14,16 @@ public class VirtualKeyboard : MonoBehaviour {
 
     public void KeyLeft()
     {
-
+        InputField.MoveDirection(-1);
     }
 
     public void KeyRight()
     {
-
+        InputField.MoveDirection(1);
     }
 
     public void KeyDelete()
     {
-
+        InputField.BackSpace();
     }
 }

@@ -6,21 +6,21 @@ public class MyInputField : InputFieldOriginal
 {
     private int savedSelectPosition;
     private int savedPosition;
+    
+    private int Difference => savedSelectPosition - savedPosition == 0 ? -1 : 0;
+    
     public void AddString(char s)
     {
-        StartCoroutine(LateUpdateLabel(s));
+        UIAppend(s);
+        MoveDirection(1);
     }
 
-    private IEnumerator LateUpdateLabel(char s)
+    public void BackSpace()
     {
-        Append1(s);
-        ActivateInputField();
-        yield return null;
-
-        caretSelectPositionInternal = caretPositionInternal = savedPosition + 1;
-        savedPosition = caretSelectPositionInternal;
-        UpdateLabel();
+        UIAppend('\0', Difference);
+        MoveDirection(0);
     }
+
 
     public override void OnDeselect(BaseEventData eventData)
     {
@@ -29,23 +29,42 @@ public class MyInputField : InputFieldOriginal
         base.OnDeselect(eventData);
     }
 
-    protected  void Append1(char input)
+    private void UIAppend(char input, int offset = 0)
     {
         string newText = "";
         
-        Debug.Log(savedPosition);
-        for (int i = 0; i < savedPosition; i++)
+        for (int i = 0; i < savedPosition + offset; i++)
         {
             newText += m_Text[i];
         }
-        newText += input;
 
-        Debug.Log(savedSelectPosition);
+        if (input != '\0')
+        {
+            newText += input;
+        }
+
         for (int i = savedSelectPosition; i < m_Text.Length; i++)
         {
             newText += m_Text[i];
         }
         
         m_Text = newText;
+    }
+
+    public void MoveDirection(int direction)
+    {
+        StartCoroutine(UpdateInputField(direction));
+    }
+    
+    private IEnumerator UpdateInputField(int direction)
+    {
+        ActivateInputField();
+
+        yield return new WaitForEndOfFrame();
+        
+        caretSelectPositionInternal = caretPositionInternal = savedPosition + direction;
+        savedPosition = caretSelectPositionInternal;
+        
+        UpdateLabel();
     }
 }
