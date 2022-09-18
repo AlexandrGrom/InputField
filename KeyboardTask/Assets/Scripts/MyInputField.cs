@@ -18,7 +18,7 @@ public class MyInputField : InputFieldOriginal
     public void BackSpace()
     {
         UIAppend('\0', Difference);
-        MoveDirection(0);
+        MoveDirection(Difference);
     }
 
 
@@ -48,6 +48,8 @@ public class MyInputField : InputFieldOriginal
             newText += m_Text[i];
         }
         
+        Debug.Log(m_Text);
+
         m_Text = newText;
     }
 
@@ -64,6 +66,7 @@ public class MyInputField : InputFieldOriginal
         
         caretSelectPositionInternal = caretPositionInternal = savedPosition + direction;
         savedPosition = caretSelectPositionInternal;
+        savedSelectPosition = caretSelectPositionInternal;
         
         UpdateLabel();
     }

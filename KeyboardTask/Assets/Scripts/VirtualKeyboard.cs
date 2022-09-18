@@ -1,29 +1,65 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class VirtualKeyboard : MonoBehaviour {
 
+public class VirtualKeyboard : MonoBehaviour
+{
+    [SerializeField] private float tick = 1;
     public MyInputField InputField;
-
-    public void KeyPress(string c)
+    public void StartPressKey(string s)
     {
-        InputField.AddString(c[0]);
+        StartCoroutine(nameof(UpdateDataKey), s);
     }
 
-    public void KeyLeft()
+    public void EndPressKey()
     {
-        InputField.MoveDirection(-1);
+        StopCoroutine(nameof(UpdateDataKey));
     }
 
-    public void KeyRight()
+    public void StartPressArrow(int i)
     {
-        InputField.MoveDirection(1);
+        StartCoroutine(nameof(UpdateDataArrow), i);
     }
 
-    public void KeyDelete()
+    public void EndPressArrow()
     {
-        InputField.BackSpace();
+        StopCoroutine(nameof(UpdateDataArrow));
+    }
+    
+    public void StartPressKeyDelete()
+    {
+        StartCoroutine(nameof(UpdateDataKeyDelete));
+    }
+
+    public void EndPressKeyDelete()
+    {
+        StopCoroutine(nameof(UpdateDataKeyDelete));
+    }
+    
+    private IEnumerator UpdateDataKey(string s)
+    {
+        while (true)
+        {
+            InputField.AddString(s[0]);
+            yield return new WaitForSeconds(tick);
+        }
+    }
+    
+    private IEnumerator UpdateDataArrow(int i)
+    {
+        while (true)
+        {
+            InputField.MoveDirection(i);
+            yield return new WaitForSeconds(tick);
+        }
+    }
+    
+    private IEnumerator UpdateDataKeyDelete()
+    {
+        while (true)
+        {
+            InputField.BackSpace();
+            yield return new WaitForSeconds(tick);
+        }
     }
 }
