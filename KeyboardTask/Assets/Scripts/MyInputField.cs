@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -31,6 +32,12 @@ public class MyInputField : InputFieldOriginal
 
     private void UIAppend(char input, int offset = 0)
     {
+        if (savedPosition > savedSelectPosition)
+        {
+            Switch(ref savedPosition, ref savedSelectPosition);
+        }
+
+        
         string newText = "";
         
         for (int i = 0; i < savedPosition + offset; i++)
@@ -70,4 +77,17 @@ public class MyInputField : InputFieldOriginal
         
         UpdateLabel();
     }
+    
+    private void Switch(ref int value1, ref int value2)
+    {
+        var switchValue = value1;
+        value1 = value2;
+        value2 = switchValue;
+    }
+
+}
+
+public static class IntExtensions
+{
+
 }
